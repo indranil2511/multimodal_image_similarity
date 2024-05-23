@@ -94,14 +94,12 @@ def user_input(user_question, image_list):
     msg = HumanMessage(
             content=content
         )
-    print('===content====', content)
     output_message = model.invoke([msg])
     print(f'output_message ',output_message.content)
     # Load and preprocess images
     embeddings = [get_image_embedding(img) for img in st.session_state["image_byte"]]
 
     similarity_matrix = cosine_similarity(embeddings)
-
     # Print similarity score
     st.write(f'Similarity score between image1 and image2: {similarity_matrix[0][1]}')
 
@@ -133,7 +131,8 @@ def main():
 
     if user_question:
         if st.session_state.get("iamge_list"):
-            user_input(user_question, st.session_state["iamge_list"])
+            with st.spinner('Processing...'):
+                user_input(user_question, st.session_state["iamge_list"])
         else:
             st.error("Please upload files first.")
 
@@ -146,13 +145,9 @@ def main():
             pics = copy.deepcopy(img)
             image_list.append(get_base64_image(pics.read()))
             image_byte.append(Image.open(BytesIO(img.read())))
-        print('image_list', image_list)
         st.session_state["iamge_list"] = image_list
         st.session_state["image_byte"] = image_byte
-        print(st.session_state["image_byte"])
 
 def get_base64_image(image_byte):
-    print('image_byte', image_byte)
     b64_string = base64.b64encode(image_byte).decode('utf-8')
-    print(b64_string)
     return b64_string

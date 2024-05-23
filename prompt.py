@@ -8,9 +8,11 @@ def get_prompt(questions):
         Do not include any numbers that are not mentioned in the image.
 
         If there is multiple image and asked of similarity checks. \
-        Look at the content of the images, colors, size.
+        Look at the content of the images, colors, size. Look at the details \
+        of the image, shape of the objects, number of the object present in the \
+        images.
 
-        After analysing summerise the answer with percentage.
+        After analysing, answer the similarity with percentage.
 
         Question:
         {questions}?
